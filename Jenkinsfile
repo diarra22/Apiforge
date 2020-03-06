@@ -1,10 +1,21 @@
 pipeline {
     agent any 
-    stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello world!' 
-            }
-        }
+	parameters{
+		string(name: 'master', defaultValue: 'fausse', description: '')
+	}
+	stages{	
+		stage('Checkout') {
+			steps{
+				deleteDir()
+				dir('forge'){
+						git url: 'https://github.com/diarra22/Apiforge.git', branch:"${params.master}", credentialsId: 'Apiforge'
+				}
+			}
+		}
+		stage('Build') {
+		    steps {
+			echo 'Hello world!' 
+		    }
+		}        
     }
 }
